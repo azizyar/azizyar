@@ -1,0 +1,28 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/time-token",
+      "handler": "time-token.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/time-token",
+      "handler": "time-token.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/time-token",
+      "handler": "time-token.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

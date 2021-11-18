@@ -1,0 +1,20 @@
+{
+  "kind": "singleType",
+  "collectionName": "time_tokens",
+  "info": {
+    "name": "time-token"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "token": {
+      "type": "string"
+    },
+    "time": {
+      "type": "biginteger"
+    }
+  }
+}
