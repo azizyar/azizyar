@@ -36,7 +36,6 @@ export default function HomePage({ cont }) {
     <Layout>
       <h1>Orders: </h1>
       <ToastContainer />
-      <button onClick={() => setResourceType('image')}>Posts</button>
       <img src={resp.url} height='100' width='100'></img>
 
       {cont.map((con) => (
@@ -48,31 +47,31 @@ export default function HomePage({ cont }) {
 
 //export async function getStaticProps() {
 export async function getServerSideProps() {
-  const iimmgg = async (ean) => {
-    //async function iimmgg(ean) {
-    const open = await fetch(
-      `https://api.bol.com/catalog/v4/search/?q=${ean}&offset=0&limit=1&dataoutput=products&apikey=92D2DDD17E2245BDAFC0E359939510CA&format=json`
-    );
-    const openbol = await open.json();
-    const resopen = openbol.products;
+  // const iimmgg = async (ean) => {
+  //   //async function iimmgg(ean) {
+  //   const open = await fetch(
+  //     `https://api.bol.com/catalog/v4/search/?q=${ean}&offset=0&limit=1&dataoutput=products&apikey=92D2DDD17E2245BDAFC0E359939510CA&format=json`
+  //   );
+  //   const openbol = await open.json();
+  //   const resopen = openbol.products;
 
-    return resopen;
-  };
+  //   return resopen;
+  // };
 
-  const img = async (ean) => {
-    const res5 = await fetch(`${NEW_IMAGES_URL}`, {
-      method: 'post',
-      body: {
-        ean,
-      },
-    });
-    const newImages = await res5.json();
-    return newImages;
-  };
+  // const img = async (ean) => {
+  //   const res5 = await fetch(`${NEW_IMAGES_URL}`, {
+  //     method: 'post',
+  //     body: {
+  //       ean,
+  //     },
+  //   });
+  //   const newImages = await res5.json();
+  //   return newImages;
+  // };
 
-  const neuImgUrl = await img(8720279155127);
+  // const neuImgUrl = await img(8720279155127);
 
-  console.log(neuImgUrl.url);
+  // console.log(neuImgUrl.url);
 
   const res4 = await fetch(`${NEW_TOKEN_URL}`, { method: 'post' });
   const newToken = await res4.json();
@@ -138,8 +137,17 @@ export async function getServerSideProps() {
     const dat = await bolDetail.json();
 
     dat.orderItems.forEach(async (item, index) => {
-      const popopo = await iimmgg(item.product.ean);
-      const img = popopo[0].images[4].url;
+      const imgRes = await fetch(`${API_URL}/images?ean=${item.product.ean}`);
+      const imgs = await imgRes.json();
+
+      const imgUrl = imgs[0] ? imgs[0].url : '/images/event-default.png';
+
+      console.log(imgUrl);
+
+      //const popopo = await iimmgg(item.product.ean);
+      //const img = popopo[0].images[4].url;
+      // const img = imgs.url;
+      const img = imgUrl;
       dat.orderItems[index].product['image'] = img;
     });
 
