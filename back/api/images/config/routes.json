@@ -25,6 +25,14 @@
       }
     },
     {
+      "method": "GET",
+      "path": "/images/:ean",
+      "handler": "images.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
       "method": "POST",
       "path": "/images",
       "handler": "images.create",
