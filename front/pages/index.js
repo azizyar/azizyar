@@ -13,18 +13,18 @@ export default function HomePage({ cont }) {
     const data = await fetch(`${NEW_IMAGES_URL}`, {
       method: 'POST',
       body: JSON.stringify({
-        ean: ean,
+        ean: 8720279199985,
       }),
     });
     const json = await data.json();
-    // console.log(json);
-
+    console.log('Working');
     setState(json);
   }, []);
 
   useEffect(() => {
-    fetchData(8720279199985)
+    const getImg = fetchData()
       // make sure to catch any error
+
       .catch(console.error);
   }, [resourceType]);
 
@@ -34,6 +34,7 @@ export default function HomePage({ cont }) {
 
   return (
     <Layout>
+      <button onClick={() => setResourceType('image')}>Posts</button>
       <h1>Orders: </h1>
       <ToastContainer />
       <img src={resp.url} height='100' width='100'></img>
@@ -45,34 +46,7 @@ export default function HomePage({ cont }) {
   );
 }
 
-//export async function getStaticProps() {
 export async function getServerSideProps() {
-  // const iimmgg = async (ean) => {
-  //   //async function iimmgg(ean) {
-  //   const open = await fetch(
-  //     `https://api.bol.com/catalog/v4/search/?q=${ean}&offset=0&limit=1&dataoutput=products&apikey=92D2DDD17E2245BDAFC0E359939510CA&format=json`
-  //   );
-  //   const openbol = await open.json();
-  //   const resopen = openbol.products;
-
-  //   return resopen;
-  // };
-
-  // const img = async (ean) => {
-  //   const res5 = await fetch(`${NEW_IMAGES_URL}`, {
-  //     method: 'post',
-  //     body: {
-  //       ean,
-  //     },
-  //   });
-  //   const newImages = await res5.json();
-  //   return newImages;
-  // };
-
-  // const neuImgUrl = await img(8720279155127);
-
-  // console.log(neuImgUrl.url);
-
   const res4 = await fetch(`${NEW_TOKEN_URL}`, { method: 'post' });
   const newToken = await res4.json();
 
@@ -86,38 +60,10 @@ export async function getServerSideProps() {
       Authorization: 'Bearer ' + newToken.token,
     },
   });
-  //const cookies = cookie.parse('foo=bar; equation=E%3Dmc%5E2')
+
   const data = await bolRes.json();
 
   const mmm = data.orders;
-
-  //test not working
-  // //console.log(mmm)
-
-  //   // const imgs = async (ean) => {
-  //   //   const res5 = await fetch(`${NEW_IMAGES_URL}`, {
-  //   //     method: 'post',
-  //   //     body: {
-  //   //       ean,
-  //   //     },
-  //   //   });
-  //   //   const newImages = await res5.json();
-  //   //   return newImages;
-  //   // };
-
-  //   dat.orderItems.forEach(async (item, index) => {
-  //     const neuImgUrl = await fetch(`${NEW_IMAGES_URL}`, {
-  //       method: 'post',
-  //       body: {
-  //         ean: item.product.ean,
-  //       },
-  //     });
-  //     const newImages = await neuImgUrl.json();
-  //     const img = newImages.url;
-  //     dat.orderItems[index].product['image'] = img;
-  //   });
-
-  //end test not working
 
   for (let k in mmm) {
     // console.log(k)
@@ -133,7 +79,7 @@ export async function getServerSideProps() {
         },
       }
     );
-    //const cookies = cookie.parse('foo=bar; equation=E%3Dmc%5E2')
+
     const dat = await bolDetail.json();
 
     dat.orderItems.forEach(async (item, index) => {
@@ -142,24 +88,18 @@ export async function getServerSideProps() {
 
       const imgUrl = imgs[0] ? imgs[0].url : '/images/event-default.png';
 
-      console.log(imgUrl);
+      // console.log(imgUrl);
 
-      //const popopo = await iimmgg(item.product.ean);
-      //const img = popopo[0].images[4].url;
-      // const img = imgs.url;
       const img = imgUrl;
       dat.orderItems[index].product['image'] = img;
     });
 
     cont.push(dat);
-    // setCount(dat);
-    //console.log(dat.orderItems);
   }
 
   if (bolRes.ok) {
     return {
       props: { cont },
-      //revalidate: 1,
     };
   }
 }
