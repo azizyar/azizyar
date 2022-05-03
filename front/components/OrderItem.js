@@ -1,8 +1,40 @@
+import { NEW_IMAGES_URL } from '@/config/index'
+import { useState } from 'react'
 import Image from 'next/image'
 import styles from '@/styles/Address.module.css'
 //import { API_URL } from '@/config/index'
 
 export default function OrderItem({ orderitems }) {
+  //console.log(orderitems[0].product.ean)
+
+  const [values, setValues] = useState({})
+
+  const updatImage = (ean) => {
+    const fetchData = async (ean) => {
+      // get the data from the api
+
+      console.log('Workingggg ' + ean)
+      const data = await fetch(`${NEW_IMAGES_URL}`, {
+        method: 'POST',
+        body: JSON.stringify({
+          artEan: ean,
+        }),
+        ///body: JSON.stringify({ artEan: ean }),
+      })
+      // convert the data to json
+      const json = await data.json()
+
+      // set state with the result
+      console.log(json)
+      //setValues(json)
+    }
+
+    fetchData(ean)
+
+    //console.log('Working!!!' + ean + values)
+    //console.log(values)
+  }
+
   return (
     <>
       {orderitems.map((orderitem) => (
@@ -17,6 +49,9 @@ export default function OrderItem({ orderitems }) {
               width={150}
               height={150}
             />
+            <button onClick={() => updatImage(orderitems[0].product.ean)}>
+              Posts
+            </button>
           </div>
           <h4>
             OrderItem: {orderitem.product.ean}{' '}

@@ -1,13 +1,13 @@
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import Header from './Header';
-import Footer from './Footer';
+import Head from 'next/head'
+import { useRouter } from 'next/router'
+import Header from './Header'
+import Footer from './Footer'
 //import Showcase from './Showcase'
 //import InfoBox from './InfoBox'
-import styles from '@/styles/Layout.module.css';
+import styles from '@/styles/Layout.module.css'
 
 export default function Layout({ title, keywords, description, children }) {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <div>
@@ -24,11 +24,11 @@ export default function Layout({ title, keywords, description, children }) {
       <div className={styles.container}>{children}</div>
       <Footer />
     </div>
-  );
+  )
 }
 
 Layout.defaultProps = {
-  title: 'DJ Events | Find the hottest parties',
-  description: 'Find the latest DJ and other musical events',
-  keywords: 'music, dj, edm, events',
-};
+  title: 'LitaLife App',
+  description: 'New App for Litalife managment',
+  keywords: 'WMS, Litalife, order system',
+}
