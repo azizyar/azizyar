@@ -62,7 +62,9 @@ export async function getServerSideProps() {
   }
 
   const t = await test(8720279128701)
+
   console.log(t.url)
+
   const cont = []
   for (let k in images) {
     // console.log(k)
